@@ -1,0 +1,50 @@
+if state then
+             chinahatenabled = state
+        if chinahatenabled then
+			spawn(function()
+                repeat
+                    task.wait(0.3)
+                    if (not chinahatenabled) then return end
+                    if entity.isAlive then
+                        if chinahattrail == nil or chinahattrail.Parent == nil then
+                            chinahattrail = Instance.new("Part")
+                            chinahattrail.CFrame = lplr.Character.Head.CFrame * CFrame.new(0, 1.1, 0)
+                            chinahattrail.Size = Vector3.new(3, 0.7, 3)
+                            chinahattrail.Name = "ChinaHat"
+                            chinahattrail.Material = Enum.Material.Neon
+                            chinahattrail.CanCollide = false
+                            chinahattrail.Transparency = 0.3
+                            local chinahatmesh = Instance.new("SpecialMesh")
+                            chinahatmesh.Parent = chinahattrail
+                            chinahatmesh.MeshType = "FileMesh"
+                            chinahatmesh.MeshId = "http://www.roblox.com/asset/?id=1778999"
+                            chinahatmesh.Scale = Vector3.new(3, 0.6, 3)
+                            local chinahatweld = Instance.new("WeldConstraint")
+                            chinahatweld.Name = "WeldConstraint"
+                            chinahatweld.Parent = chinahattrail
+                            chinahatweld.Part0 = lplr.Character.Head
+                            chinahatweld.Part1 = chinahattrail
+                            chinahattrail.Parent = workspace.Camera
+                        else
+                            chinahattrail.Parent = workspace.Camera
+                            chinahattrail.CFrame = lplr.Character.Head.CFrame * CFrame.new(0, 1.1, 0)
+                            chinahattrail.LocalTransparencyModifier = ((cam.CFrame.Position - cam.Focus.Position).Magnitude <= 0.6 and 1 or 0)
+                            if chinahattrail:FindFirstChild("WeldConstraint") then
+                                chinahattrail.WeldConstraint.Part0 = lplr.Character.Head
+                            end
+                        end
+                    else
+                        if chinahattrail then 
+                            chinahattrail:remove()
+                            chinahattrail = nil
+                        end
+                    end
+                until (not chinahatenabled)
+            end)
+        else
+            if chinahattrail then
+                chinahattrail:Remove()
+                chinahattrail = nil
+            end
+        end
+    end
